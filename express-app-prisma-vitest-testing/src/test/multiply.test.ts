@@ -27,9 +27,20 @@ describe("multiply", () => {
             type: "multiply"
         });
 
+        vi.spyOn(prismaClient.request, "create");
+
         const res = await request(app).post("/multiply").send({ 
             a: 1, 
             b: 2 
+        })
+
+        expect(prismaClient.request.create).toHaveBeenCalledWith({
+            data: {
+                a: 1,
+                b: 2,
+                answer: 2,
+                type: "multiply"
+            }
         })
         expect(res.body.answer).toBe(2)
         expect(res.body.id).toBe(1)
