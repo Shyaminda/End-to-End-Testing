@@ -3,15 +3,7 @@ import {describe, expect, it, vi} from 'vitest';
 import { app } from '..';
 import request from 'supertest';
 
-vi.mock("../db", () => {
-    return {               
-        prismaClient: {
-            request: {
-                create: vi.fn() //prismaClient.request.create
-            }
-        }
-    }
-})
+vi.mock("../db")
 
 describe("sum", () => {
     it("should should be able to add two positive numbers", async () => {
