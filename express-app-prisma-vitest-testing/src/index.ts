@@ -38,7 +38,7 @@ app.post("/multiply", async (req, res): Promise<any> => {
 
     const request = await prismaClient.request.create({
         data: {
-            a: a    ,
+            a: a,
             b: b,
             answer: result,
             type: "multiply"
