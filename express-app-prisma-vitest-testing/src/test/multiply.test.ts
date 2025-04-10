@@ -1,7 +1,18 @@
 // import {describe, expect, it} from '@jest/globals';
-import {describe, expect, it} from 'vitest';
+import {describe, expect, it, vi} from 'vitest';
 import { app } from '..';
 import request from 'supertest';
+
+vi.mock("../db", () => {
+    return {               
+        prismaClient: {
+            request: {
+                create: vi.fn(), //prismaClient.request.create
+                delete: vi.fn() //prismaClient.request.delete
+            }
+        }
+    }
+})
 
 describe("multiply", () => {
     it("should should be able to multiply two positive numbers", async () => {

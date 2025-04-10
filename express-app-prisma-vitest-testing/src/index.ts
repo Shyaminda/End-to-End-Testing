@@ -1,9 +1,10 @@
 import express from 'express';
+import { prismaClient } from './db';
 
 export const app = express();
 app.use(express.json());
 
-app.post("/sum", (req, res): any => {
+app.post("/sum", async (req, res): Promise<any> => {
     const a = req.body.a;
     const b = req.body.b;
 
@@ -13,10 +14,19 @@ app.post("/sum", (req, res): any => {
 
     const result = a + b;
 
+    await prismaClient.request.create({
+        data: {
+            a: a,
+            b: b,
+            answer: result,
+            type: "sum"
+        }
+    })
+
     res.json({ answer: result });
 })
 
-app.post("/multiply", (req, res): any => {
+app.post("/multiply", async (req, res): Promise<any> => {
     const a = req.body.a;
     const b = req.body.b;
 
@@ -25,6 +35,15 @@ app.post("/multiply", (req, res): any => {
     }
 
     const result = a * b;
+
+    await prismaClient.request.create({
+        data: {
+            a: a,
+            b: b,
+            answer: result,
+            type: "multiply"
+        }
+    })
 
     res.json({ answer: result });
 })
